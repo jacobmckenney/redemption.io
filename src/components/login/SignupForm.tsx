@@ -17,11 +17,11 @@ const SignupForm: React.FC<SignupFormProps> = ({ submit }) => {
 
     return (
         <form onSubmit={handleSubmit(submit)}>
-            <LabeledInput name="username" errors={errors} register={register}>
-                Username:
+            <LabeledInput name="email" errors={errors} register={register}>
+                email:
             </LabeledInput>
             <LabeledInput name="password" type="password" errors={errors} register={register}>
-                Password:
+                password:
             </LabeledInput>
             <LabeledInput
                 name="confirmPassword"
@@ -30,7 +30,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ submit }) => {
                 customError="Passwords must match"
                 register={register}
             >
-                Confirm Password:
+                confirm password:
             </LabeledInput>
             <button type="submit">signup</button>
         </form>

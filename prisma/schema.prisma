@@ -68,3 +68,18 @@ model Item {
     price       Float
     quantity    Int
 }
+
+model RedemptionUser {
+    id       String @id @default(cuid())
+    email    String @unique
+    password String
+}
+
+model Note {
+    id        String   @id @unique @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    String
+    title     String
+    content   String
+}

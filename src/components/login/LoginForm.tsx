@@ -17,11 +17,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ submit }) => {
 
     return (
         <form onSubmit={handleSubmit(submit)} className="flex flex-col items-center">
-            <LabeledInput name="username" errors={errors} register={register}>
-                Username:
+            <LabeledInput name="email" errors={errors} register={register}>
+                email:
             </LabeledInput>
             <LabeledInput name="password" type="password" errors={errors} register={register}>
-                Password:
+                password:
             </LabeledInput>
             <div className="flex w-full space-between">
                 <button type="submit">login</button>

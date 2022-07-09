@@ -1,50 +1,49 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { trpc } from "../../utils/trpc";
-import { TabsContent, TabsTrigger, TabsList, Tabs } from "@radix-ui/react-tabs";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import { PopoverClose } from "@radix-ui/react-popover";
 import Card from "../Card";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { UserContext } from "../../context/userContext";
 
 interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
-    // const mutation = trpc.useMutation("items.create");
-    // const items = trpc.useQuery(["items.all"])
+    const [data, setData] = useState({ email: "", password: "" });
+    const signin = trpc.useMutation("user.signup");
+    const { id, setId, setLoggedIn } = useContext(UserContext);
+    const login = trpc.useQuery(["user.login", data], {
+        onSuccess: (data) => {
+            setId(data?.id as string);
+            if (data?.id && data?.id !== "") setLoggedIn(true);
+        },
+    });
+    const [showLogin, setShowLogin] = React.useState(true);
 
     const submitLogin = async (data: any) => {
-        console.log(data);
+        setData(data);
+    };
+
+    const submitSignup = async (data: any) => {
         try {
-            // const res = await mutation.mutateAsync({ ...data });
+            delete data.confirmPassword;
+            const res = await signin.mutateAsync({ ...data });
+            console.log(res);
         } catch (e) {
             console.log(e);
         }
     };
 
-    const submitSignup = async (data: any) => {
-        console.log(data);
-    };
-
     return (
-        <Card className="bg-primary3 p-5 flex flex-col border border-primary10 w-60">
-            <PopoverClose className="flex justify-end w-ful">
-                <Cross2Icon className="hover:text-primary9" />
-            </PopoverClose>
-            <Tabs defaultValue="login" className="w-full">
-                <TabsList className="w-full flex justify-center">
-                    <TabsTrigger value="login">login</TabsTrigger>
-                    <div className="grow" />
-                    <TabsTrigger value="signup">signup</TabsTrigger>
-                </TabsList>
-                <TabsContent value="login">
-                    <LoginForm submit={submitLogin} />
-                </TabsContent>
-                <TabsContent value="signup">
-                    <SignupForm submit={submitSignup} />
-                </TabsContent>
-            </Tabs>
-        </Card>
+        <>
+            <p>{id}</p>
+            <p>{JSON.stringify(login?.status)}</p>
+            {showLogin ? <LoginForm submit={submitLogin} /> : <SignupForm submit={submitSignup} />}
+            <div className="w-full flex justify-end hover:text-primary9 cursor-pointer text-xs">
+                <p onClick={() => setShowLogin(!showLogin)}>{showLogin ? "don't have an account?" : "back to login"}</p>
+            </div>
+        </>
     );
 };
 
