@@ -16,6 +16,7 @@ module.exports = {
   theme: {
     extend: {},
     colors: {
+      error: '#f5d90a',
       primary1: '#07191d',
       primary2: '#061e24',
       primary3: '#072830',
@@ -40,6 +41,20 @@ module.exports = {
       secondary10: 'hsl(206, 5.2%, 49.5%)',
       secondary11: 'hsl(206, 6.0%, 63.0%)',
       secondary12: 'hsl(210, 6.0%, 93.0%)',
+      // const yellow = {
+      //   yellow1: '#fdfdf9',
+      //   yellow2: '#fffce8',
+      //   yellow3: '#fffbd1',
+      //   yellow4: '#fff8bb',
+      //   yellow5: '#fef2a4',
+      //   yellow6: '#f9e68c',
+      //   yellow7: '#efd36c',
+      //   yellow8: '#ebbc00',
+      //   yellow9: '#f5d90a',
+      //   yellow10: '#f7ce00',
+      //   yellow11: '#946800',
+      //   yellow12: '#35290f',
+      // }
 
     }
   },

@@ -1,46 +1,50 @@
-import React from 'react';
+import React from "react";
+import { trpc } from "../../utils/trpc";
+import { TabsContent, TabsTrigger, TabsList, Tabs } from "@radix-ui/react-tabs";
+import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
+import { PopoverClose } from "@radix-ui/react-popover";
 import Card from "../Card";
-import * as rhf from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { CREATE_ITEM_SCHEMA } from "../../constants/validation-schemas/create-item";
-import LabeledInput from '../LabeledInput';
-import{ trpc } from '../../utils/trpc';
-import NavBar from '../NavBar';
+import { Cross2Icon } from "@radix-ui/react-icons";
 
-interface LoginProps {
-
-};
+interface LoginProps {}
 
 const Login: React.FC<LoginProps> = () => {
+    // const mutation = trpc.useMutation("items.create");
+    // const items = trpc.useQuery(["items.all"])
 
-    const mutation = trpc.useMutation('items.create');
-    const items = trpc.useQuery(['items.all']);
-    const submit = async (data: any) => {
-        console.log({...data});
+    const submitLogin = async (data: any) => {
+        console.log(data);
         try {
-            const res = await mutation.mutateAsync({...data});
-            console.log(res);
+            // const res = await mutation.mutateAsync({ ...data });
         } catch (e) {
             console.log(e);
         }
     };
-    const { register, handleSubmit, formState: { errors } } = rhf.useForm({resolver: yupResolver(CREATE_ITEM_SCHEMA)});
+
+    const submitSignup = async (data: any) => {
+        console.log(data);
+    };
 
     return (
-        <div className='w-screen, h-screen bg-primary1 text-primary11 flex-col items-center'>
-            <NavBar/>
-            <p>{items.status === 'loading' && 'loading'}</p>
-            <p>{items.data && JSON.stringify(items.data)}</p>
-            <h1>Sign In!</h1>
-            <form onSubmit={handleSubmit(submit)} className='flex flex-col items-center'>
-                <LabeledInput name="name" errors={errors} register={register} >Name</LabeledInput>
-                <LabeledInput name="make" errors={errors} register={register} >Make</LabeledInput>
-                <LabeledInput name="description" errors={errors} register={register} >Description</LabeledInput>
-                <LabeledInput name="price" errors={errors} register={register} >Price</LabeledInput>
-                <LabeledInput name="quantity" errors={errors} register={register} >Quantity</LabeledInput>
-                <button type="submit">Submit!</button>
-            </form>
-        </div>
+        <Card className="bg-primary3 p-5 flex flex-col border border-primary10 w-60">
+            <PopoverClose className="flex justify-end w-ful">
+                <Cross2Icon className="hover:text-primary9" />
+            </PopoverClose>
+            <Tabs defaultValue="login" className="w-full">
+                <TabsList className="w-full flex justify-center">
+                    <TabsTrigger value="login">login</TabsTrigger>
+                    <div className="grow" />
+                    <TabsTrigger value="signup">signup</TabsTrigger>
+                </TabsList>
+                <TabsContent value="login">
+                    <LoginForm submit={submitLogin} />
+                </TabsContent>
+                <TabsContent value="signup">
+                    <SignupForm submit={submitSignup} />
+                </TabsContent>
+            </Tabs>
+        </Card>
     );
 };
 
