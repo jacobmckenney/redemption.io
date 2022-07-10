@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { capitalize } from "../utils/helpers";
@@ -8,17 +8,36 @@ interface LabeledInputProps {
     name: string;
     errors?: FieldValues;
     customError?: string;
-    register?: any;
+    register: any;
     type?: string;
+    defaultValue?: string;
+    onBlur?: any;
 }
 
-const LabeledInput: React.FC<LabeledInputProps> = ({ children, name, errors, customError, register, type }) => {
+const LabeledInput: React.FC<LabeledInputProps> = ({
+    children,
+    name,
+    errors,
+    customError,
+    register,
+    type,
+    defaultValue,
+    onBlur,
+}) => {
+    const [val, setVal] = useState(defaultValue ?? "");
     return (
         <div className="my-2">
             <label className="mr-2" htmlFor={name}>
                 {children}
             </label>
-            <input className="bg-primary1" type={type ? type : "text"} id={name} {...register(name)} />
+            <input
+                className="bg-primary1"
+                type={type ? type : "text"}
+                id={name}
+                {...register(name)}
+                value={val}
+                onChange={(e) => setVal(e.target.value)}
+            />
             {errors && errors[name] && (
                 <div className="flex text-error justify-start items-center text-xs mt-2">
                     <ExclamationTriangleIcon className="mr-2" />

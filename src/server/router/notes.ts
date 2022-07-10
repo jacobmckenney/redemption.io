@@ -30,3 +30,21 @@ export const notesRouter = createRouter()
             return await prisma.note.delete({ where: { id: input.id}})
         }
     })
+    .mutation("update", {
+        input: z.object({
+            id: z.string(),
+            title: z.string(),
+            content: z.string(),
+        }),
+        async resolve({ input }) {
+            return await prisma.note.update({
+                where: {
+                    id: input.id
+                },
+                data: {
+                    title: input.title,
+                    content: input.content
+                }
+            })
+        }
+    })

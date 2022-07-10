@@ -21,4 +21,9 @@ export const userRouter = createRouter()
                 email: input.email,
             }});
         }
-    });
+    })
+    .query("all",{
+        async resolve({}) {
+            return await prisma.redemptionUser.findMany();
+        }
+    } )

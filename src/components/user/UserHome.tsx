@@ -4,11 +4,11 @@ import { UserContext } from "../../context/userContext";
 interface UserHomeProps {}
 
 const UserHome: React.FC<UserHomeProps> = () => {
-    const { setLoggedIn } = useContext(UserContext);
+    const { setId } = useContext(UserContext);
     return (
         <div>
             <p>{"logged in :)"}</p>
-            <button className="hover:text-primary9" onClick={() => setLoggedIn(false)}>
+            <button className="hover:text-primary9" onClick={() => setId("")}>
                 log out
             </button>
         </div>

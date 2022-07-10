@@ -2,9 +2,6 @@ import React, { useState, useContext } from "react";
 import { trpc } from "../../utils/trpc";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import { PopoverClose } from "@radix-ui/react-popover";
-import Card from "../Card";
-import { Cross2Icon } from "@radix-ui/react-icons";
 import { UserContext } from "../../context/userContext";
 
 interface LoginProps {}
@@ -12,11 +9,10 @@ interface LoginProps {}
 const Login: React.FC<LoginProps> = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const signin = trpc.useMutation("user.signup");
-    const { id, setId, setLoggedIn } = useContext(UserContext);
+    const { id, setId } = useContext(UserContext);
     const login = trpc.useQuery(["user.login", data], {
         onSuccess: (data) => {
-            setId(data?.id as string);
-            if (data?.id && data?.id !== "") setLoggedIn(true);
+            if (data?.id && data?.id !== "") setId(data?.id as string);
         },
     });
     const [showLogin, setShowLogin] = React.useState(true);

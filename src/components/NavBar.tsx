@@ -7,11 +7,12 @@ import Card from "./Card";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { UserContext } from "../context/userContext";
 import UserHome from "./user/UserHome";
+import { loggedIn } from "../utils/helpers";
 
 interface NavBarProps {}
 
 const NavBar: React.FC<NavBarProps> = () => {
-    const { id, loggedIn } = useContext(UserContext);
+    const { id } = useContext(UserContext);
 
     return (
         <div className="w-screen h-14 bg-primary3 flex justify-between items-center text-primary11">
@@ -41,7 +42,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                                     <Cross2Icon className="hover:text-primary9" />
                                 </PopoverClose>
                                 <div>{id}</div>
-                                {loggedIn ? <UserHome /> : <Login />}
+                                {loggedIn(id) ? <UserHome /> : <Login />}
                             </Card>
                         </PopoverContent>
                     </Popover>
